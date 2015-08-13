@@ -16,11 +16,11 @@
 
 module.exports = (robot) ->
   robot.respond /eels?(?: me)?$/i, (msg) ->
-    msg.send eelMe()
+    msg.send eelMe(msg)
 
   robot.respond /eel bomb(?: me)?( \d+)?$/i, (msg) ->
     eels = msg.match[1] || 5
-    msg.send(eelMe()) for i in [1..eels]
+    msg.send(eelMe(msg)) for i in [1..eels]
 
 eelMe = (msg)->
   eels = [
