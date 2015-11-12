@@ -18,5 +18,5 @@ module.exports = (robot) ->
     data = msg.match[1]
     msg.send lookup(msg, data)
 
-lookup = (msg)->
+lookup = (msg, data)->
   return msg.send data
