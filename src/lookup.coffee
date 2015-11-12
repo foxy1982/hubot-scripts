@@ -33,19 +33,19 @@ module.exports = (robot) ->
   if (!bucket)
     throw new Error('S3 lookup requires HUBOT_S3_LOOKUP_BUCKET')
 
-  refresh
+  refresh(robot)
 
   robot.respond /lookup(.*)?/i, (msg) ->
     query = msg.match[1]
     msg.send lookup(msg, query)
 
   robot.respond /lookup-refresh/i, (msg) ->
-    msg.send refresh
+    msg.send refresh(robot)
 
 lookup = (msg, query)->
   return msg.send robot.brain.get brainKey
 
-refresh = () ->
+refresh = (robot) ->
   s3 = new aws.S3
   s3.getObject({
     Bucket: bucket,
