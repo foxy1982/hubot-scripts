@@ -22,7 +22,7 @@ module.exports = (robot) ->
   secret = process.env.HUBOT_S3_LOOKUP_SECRET_ACCESS_KEY
   bucket = process.env.HUBOT_S3_LOOKUP_BUCKET
   brainKey = "lookup"
-  lookupPath = "#{bucket}/lookup.json"
+  lookupPath = "lookup.json"
 
   if (!key)
     throw new Error('S3 lookup requires HUBOT_S3_LOOKUP_ACCESS_KEY_ID')
@@ -50,7 +50,7 @@ module.exports = (robot) ->
     s3 = new aws.S3
     s3.getObject({
       Bucket: bucket,
-      Key: key
+      Key: lookupPath
     }, (err, data) ->
       robot.logger.debug "refresh-callback"
       if (err)
