@@ -35,6 +35,11 @@ module.exports = (robot) ->
 
   robot.logger.debug "starting"
 
+  aws.config.update({
+    accessKeyId: key,
+    secretAccessKey: secret
+  })
+
   lookup = (msg, query)->
     robot.logger.debug "lookup"
     response = robot.brain.get brainKey
