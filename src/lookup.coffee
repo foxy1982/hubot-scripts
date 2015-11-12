@@ -33,6 +33,8 @@ module.exports = (robot) ->
   if (!bucket)
     throw new Error('S3 lookup requires HUBOT_S3_LOOKUP_BUCKET')
 
+  robot.logger.debug "starting"
+
   lookup = (msg, query)->
     robot.logger.debug "lookup"
     response = robot.brain.get brainKey
