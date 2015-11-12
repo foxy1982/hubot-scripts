@@ -34,16 +34,20 @@ module.exports = (robot) ->
     throw new Error('S3 lookup requires HUBOT_S3_LOOKUP_BUCKET')
 
   lookup = (msg, query)->
+    robot.logger.debug "lookup"
     response = robot.brain.get brainKey
     msg.send response
 
   refresh = (msg) ->
+    robot.logger.debug "refresh"
     s3 = new aws.S3
     s3.getObject({
       Bucket: bucket,
       Key: key
     }, (err, data) ->
+      robot.logger.debug "refresh-callback"
       if (err)
+        robot.logger.debug err
         if (msg)
           msg.send "Failed to refresh from S3: " + err
       robot.brain.set brainKey, data
