@@ -24,17 +24,14 @@ module.exports = (robot) ->
   brainKey = "lookup"
   lookupPath = "#{bucket}/lookup.json"
 
-  if (!key) {
+  if (!key)
     throw new Error('S3 lookup requires HUBOT_S3_LOOKUP_ACCESS_KEY_ID')
-  }
 
-  if (!secret) {
+  if (!secret)
     throw new Error('S3 lookup requires HUBOT_S3_LOOKUP_SECRET_ACCESS_KEY')
-  }
 
-  if (!bucket) {
+  if (!bucket)
     throw new Error('S3 lookup requires HUBOT_S3_LOOKUP_BUCKET')
-  }
 
   refresh
 
