@@ -42,17 +42,17 @@ module.exports = (robot) ->
   robot.respond /lookup-refresh/i, (msg) ->
     msg.send refresh(robot)
 
-lookup = (msg, query)->
-  return msg.send robot.brain.get brainKey
+  lookup = (msg, query)->
+    return msg.send robot.brain.get brainKey
 
-refresh = (robot) ->
-  s3 = new aws.S3
-  s3.getObject({
-    Bucket: bucket,
-    Key: key
-  }, (err, data) ->
-    if (err)
-      return "Failed to refresh from S3: " + err
-    robot.brain.set brainKey, data
-    return "Refresh complete"
-  )
+  refresh = (robot) ->
+    s3 = new aws.S3
+    s3.getObject({
+      Bucket: bucket,
+      Key: key
+    }, (err, data) ->
+      if (err)
+        return "Failed to refresh from S3: " + err
+      robot.brain.set brainKey, data
+      return "Refresh complete"
+    )
