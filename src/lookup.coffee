@@ -51,7 +51,8 @@ module.exports = (robot) ->
     s3 = new aws.S3
     s3.getObject({
       Bucket: bucket,
-      Key: lookupPath
+      Key: lookupPath,
+      ResponseContentType: 'application/json'
     }, (err, data) ->
       robot.logger.debug "refresh-callback"
       if (err)
