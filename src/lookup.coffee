@@ -35,11 +35,12 @@ module.exports = (robot) ->
 
   robot.logger.debug "starting"
 
-  aws.config.update({
+  aws.config.credentials = {
     accessKeyId: key,
-    secretAccessKey: secret,
-    region: "eu-west-1"
-  })
+    secretAccessKey: secret
+  }
+
+  aws.config.region = "eu-west-1"
 
   lookup = (msg, query)->
     robot.logger.debug "lookup"
@@ -56,11 +57,9 @@ module.exports = (robot) ->
     }, (err, data) ->
       robot.logger.debug "refresh-callback"
       if (err)
-        robot.logger.debug err
         robot.logger.debug "Request:"
         robot.logger.debug this.request.httpRequest
-        robot.logger.debug "Response:"
-        robot.logger.debug this.httpResponse
+        robot.logger.debug err
         if (msg)
           return msg.send "Failed to refresh from S3: " + err
       robot.brain.set brainKey, data
