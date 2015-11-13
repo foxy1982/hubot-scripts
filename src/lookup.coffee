@@ -37,7 +37,8 @@ module.exports = (robot) ->
 
   aws.config.update({
     accessKeyId: key,
-    secretAccessKey: secret
+    secretAccessKey: secret,
+    region: "eu-west-1"
   })
 
   lookup = (msg, query)->
