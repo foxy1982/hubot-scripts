@@ -56,8 +56,12 @@ module.exports = (robot) ->
       robot.logger.debug "refresh-callback"
       if (err)
         robot.logger.debug err
+        robot.logger.debug "Request:"
+        robot.logger.debug this.request.httpRequest
+        robot.logger.debug "Response:"
+        robot.logger.debug this.httpResponse
         if (msg)
-          msg.send "Failed to refresh from S3: " + err
+          return msg.send "Failed to refresh from S3: " + err
       robot.brain.set brainKey, data
       if msg
         msg.send "Refresh complete"
