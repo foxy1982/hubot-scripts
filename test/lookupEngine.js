@@ -1,4 +1,4 @@
-var target = require('../src/lookupEngine');
+var target = require('../lib/lookupEngine');
 require('chai').should();
 
 describe('Lookup', function () {

@@ -16,7 +16,7 @@
 #
 */
 var aws = require('aws-sdk');
-var lookupEngine = require('./lookupEngine');
+var lookupEngine = require('../lib/lookupEngine');
 
 module.exports = function (robot) {
     var key = process.env.HUBOT_S3_LOOKUP_ACCESS_KEY_ID
