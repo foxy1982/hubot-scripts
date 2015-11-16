@@ -70,7 +70,7 @@ module.exports = (robot) ->
 
       dataObject = JSON.parse(dataString)
 
-      robot.brain.set brainKey, JSON.parse(dataString)
+      robot.brain.set brainKey, dataObject
       if msg
         robot.logger.debug dataString
         msg.send "Refresh complete"
