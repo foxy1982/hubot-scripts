@@ -98,9 +98,9 @@ module.exports = function (robot) {
         });
     }
 
-    robot.respond("/lookup(.*)?/i", function (msg) {
+    robot.respond("/lookup (.*)?/i", function (msg) {
         var query = msg.match[1]
-        lookup(msg, query)
+        lookup(msg, query.trim())
     });
 
     robot.respond("/lookup-refresh/i", function (msg) {
