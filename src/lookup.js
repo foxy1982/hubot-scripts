@@ -44,19 +44,24 @@ module.exports = function (robot) {
 
     var lookup = function (msg, query) {
         robot.logger.debug("lookup")
-        response = robot.brain.get(brainKey)
-        msg.send(response);
+        var data = robot.brain.get(brainKey);
+        robot.logger.debug("Data:" + data);
+        robot.logger.debug("Query:" + query);
+        if (data[query]) {
+          msg.send(data[query]);
+        }
+        msg.send("I haven't found anything for that");
     }
 
     var refresh = function (msg) {
-        robot.logger.debug("refresh")
+        robot.logger.debug("lookup-refresh")
         s3 = new aws.S3()
         s3.getObject({
             Bucket: bucket,
             Key: lookupPath,
             ResponseContentType: 'application/json'
         }, function (err, data) {
-            robot.logger.debug("refresh-callback")
+            robot.logger.debug("lookup-refresh-callback")
             if (err) {
                 robot.logger.debug("Request:")
                 robot.logger.debug(this.request.httpRequest)
@@ -86,7 +91,7 @@ module.exports = function (robot) {
         lookup(msg, query)
     });
 
-    robot.respond("/lookupjs-refresh/i", function (msg) {
+    robot.respond("/lookup-refresh/i", function (msg) {
         refresh(msg)
     });
 
