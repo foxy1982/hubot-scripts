@@ -45,8 +45,8 @@ module.exports = function (robot) {
     var lookup = function (msg, query) {
         robot.logger.debug("lookup")
         var data = robot.brain.get(brainKey);
-        robot.logger.debug("Data:" + data);
-        robot.logger.debug("Query:" + query);
+        robot.logger.debug("Data:" + JSON.stringify(data));
+        robot.logger.debug("Query:<" + query + ">");
         if (data[query]) {
           msg.send(data[query]);
         }
