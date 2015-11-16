@@ -64,7 +64,7 @@ module.exports = (robot) ->
           msg.send "Failed to refresh from S3: " + err
         return
 
-      dataString = data.Body.toString
+      dataString = data.Body.toString()
 
       robot.logger.debug dataString
 
