@@ -58,7 +58,7 @@ module.exports = function (robot) {
         }, function (err, data) {
             robot.logger.debug("refresh-callback")
             if (err) {
-                robot.logger.debug "Request:"
+                robot.logger.debug("Request:")
                 robot.logger.debug(this.request.httpRequest)
                 robot.logger.debug(err)
                 if (msg) {
