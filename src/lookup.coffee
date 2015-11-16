@@ -66,6 +66,10 @@ module.exports = (robot) ->
 
       dataString = data.Body.toString
 
+      robot.logger.debug dataString
+
+      dataObject = JSON.parse(dataString)
+
       robot.brain.set brainKey, JSON.parse(dataString)
       if msg
         robot.logger.debug dataString
