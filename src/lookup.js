@@ -16,6 +16,7 @@
 #
 */
 var aws = require('aws-sdk');
+var lookupEngine = require('./lookupEngine');
 
 module.exports = function (robot) {
     var key = process.env.HUBOT_S3_LOOKUP_ACCESS_KEY_ID
@@ -42,15 +43,26 @@ module.exports = function (robot) {
 
     aws.config.region = "eu-west-1";
 
+    var doLookup = function (data, query) {
+        var queryArray = query.split(' ');
+        return lookupEngine(data, queryArray);
+    }
+
+    var formatLookupResult = function (lookupResult) {
+        if (!lookupResult) {
+            return 'I can\'t find any matches for that';
+        }
+        return JSON.stringify(lookupResult);
+    }
+
     var lookup = function (msg, query) {
         robot.logger.debug("lookup")
         var data = robot.brain.get(brainKey);
         robot.logger.debug("Data:" + JSON.stringify(data));
         robot.logger.debug("Query:<" + query + ">");
-        if (data[query]) {
-          msg.send(data[query]);
-        }
-        msg.send("I haven't found anything for that");
+        var lookupResult = doLookup(data, query);
+        var response = formatLookupResult(lookupResult);
+        msg.send(response);
     }
 
     var refresh = function (msg) {
