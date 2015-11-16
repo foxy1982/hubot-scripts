@@ -62,7 +62,7 @@ module.exports = function (robot) {
                 robot.logger.debug(this.request.httpRequest)
                 robot.logger.debug(err)
                 if (msg) {
-                    msg.send "Failed to refresh from S3: " + err
+                    msg.send("Failed to refresh from S3: " + err)
                 }
                 return
             }
