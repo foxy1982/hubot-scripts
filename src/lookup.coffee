@@ -64,6 +64,7 @@ module.exports = (robot) ->
           return msg.send "Failed to refresh from S3: " + err
       robot.brain.set brainKey, data
       if msg
+        robot.logger.debug data
         msg.send "Refresh complete"
     )
 
