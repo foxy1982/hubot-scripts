@@ -61,10 +61,14 @@ module.exports = (robot) ->
         robot.logger.debug this.request.httpRequest
         robot.logger.debug err
         if (msg)
-          return msg.send "Failed to refresh from S3: " + err
-      robot.brain.set brainKey, data
+          msg.send "Failed to refresh from S3: " + err
+        return
+
+      dataString = data.Body.toString
+
+      robot.brain.set brainKey, JSON.parse(dataString)
       if msg
-        robot.logger.debug data
+        robot.logger.debug dataString
         msg.send "Refresh complete"
     )
 
