@@ -22,7 +22,8 @@ module.exports = function (robot) {
     var key = process.env.HUBOT_S3_LOOKUP_ACCESS_KEY_ID
     var secret = process.env.HUBOT_S3_LOOKUP_SECRET_ACCESS_KEY
     var bucket = process.env.HUBOT_S3_LOOKUP_BUCKET
-    var brainKey = "lookup"
+    var brainKey = "lookup";
+    var brainAliasKey = "lookupAlias";
     var lookupPath = "lookup.json"
 
     if (!key) {
@@ -45,7 +46,7 @@ module.exports = function (robot) {
 
     var doLookup = function (data, query) {
         var queryArray = query.split(' ');
-        return lookupEngine(data, queryArray);
+        return lookupEngine(data, queryArray, aliases);
     }
 
     var formatLookupResult = function (lookupResult) {
@@ -90,7 +91,12 @@ module.exports = function (robot) {
 
             dataObject = JSON.parse(dataString)
 
-            robot.brain.set(brainKey, dataObject)
+            var aliasObject = JSON.parse(JSON.stringify(dataObject._aliases));
+
+            delete dataObject._aliases;
+
+            robot.brain.set(brainKey, dataObject);
+            robot.brain.set(brainAliasKey, aliasObject);
             if (msg) {
                 robot.logger.debug(dataString)
                 msg.send("Refresh complete")

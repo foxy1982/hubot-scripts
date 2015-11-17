@@ -1,7 +1,7 @@
 var target = require('../lib/lookupEngine');
 require('chai').should();
 
-describe('Lookup', function () {
+describe('Lookup engine', function () {
 
     var testData = {
         test1: {
@@ -13,8 +13,13 @@ describe('Lookup', function () {
         test2: 'test2'
     };
 
+    var aliases = {
+        "alias": "test1",
+        "alias2": "test1_1"
+    };
+
     it('should return everything if there is no query', function() {
-        var result = target(testData, '');
+        var result = target(testData, ['']);
         result.should.equal(testData);
     });
 
@@ -41,5 +46,15 @@ describe('Lookup', function () {
     it('should return options if something does not exist (2)', function() {
         var result = target(testData, ['test1', 'test1_x']);
         result.should.equal(testData.test1);
+    });
+
+    it('should honour aliases', function() {
+        var result = target(testData, ['alias'], aliases);
+        result.should.equal(testData.test1);
+    });
+
+    it('should honour aliases (2)', function() {
+        var result = target(testData, ['test1', 'alias2'], aliases);
+        result.should.equal(testData.test1.test1_1);
     });
 });
