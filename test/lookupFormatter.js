@@ -3,10 +3,10 @@ require('chai').should();
 
 describe('Lookup formatter', function () {
 
-    it('should return an array with a single string if given a string', function () {
+    it('should return a string with a single string if given a string', function () {
         var data = 'test';
         var result = target(data);
-        result.should.deep.equal([data]);
+        result.should.equal(data);
     });
 
     it('should return a title and string if given an object with a string', function () {
@@ -14,7 +14,7 @@ describe('Lookup formatter', function () {
             'title': 'content'
         };
         var result = target(data);
-        result.should.deep.equal(['title: content']);
+        result.should.equal('title: content');
     });
 
     it('should return a title and ellipses if given an object with a subobject', function () {
@@ -24,6 +24,15 @@ describe('Lookup formatter', function () {
             }
         };
         var result = target(data);
-        result.should.deep.equal(['title...']);
+        result.should.equal('title...');
+    });
+
+    it('should return multiple lines if given an object with multiple strings', function () {
+        var data = {
+            'title': 'content',
+            'title2': 'content2'
+        };
+        var result = target(data);
+        result.should.equal('title: content\ntitle2: content2');
     });
 });
