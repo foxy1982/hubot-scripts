@@ -35,4 +35,13 @@ describe('Lookup formatter', function () {
         var result = target(data);
         result.should.equal('title: content\ntitle2: content2');
     });
+
+    it('should return multiple lines if given an array', function () {
+        var data = [
+            'item1',
+            'item2'
+        ];
+        var result = target(data);
+        result.should.equal('item1\nitem2');
+    });
 });
