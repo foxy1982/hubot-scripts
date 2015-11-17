@@ -45,7 +45,7 @@ module.exports = function (robot) {
 
     aws.config.region = "eu-west-1";
 
-    var doLookup = function (data, query) {
+    var doLookup = function (data, query, aliases) {
         var queryArray = query.split(' ');
         return lookupEngine(data, queryArray, aliases);
     }
@@ -62,7 +62,9 @@ module.exports = function (robot) {
         var data = robot.brain.get(brainKey);
         robot.logger.debug("Data:" + JSON.stringify(data));
         robot.logger.debug("Query:<" + query + ">");
-        var lookupResult = doLookup(data, query);
+        var aliases = robot.brain.get(brainAliasKey);
+        robot.logger.debug("Aliases:" + JSON.stringify(aliases));
+        var lookupResult = doLookup(data, query, aliases);
         var response = formatLookupResult(lookupResult);
         msg.send(response);
     }
