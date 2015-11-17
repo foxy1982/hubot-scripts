@@ -17,14 +17,15 @@
 */
 var aws = require('aws-sdk');
 var lookupEngine = require('../lib/lookupEngine');
+var lookupFormatter = require('../lib/lookupFormatter');
 
 module.exports = function (robot) {
-    var key = process.env.HUBOT_S3_LOOKUP_ACCESS_KEY_ID
-    var secret = process.env.HUBOT_S3_LOOKUP_SECRET_ACCESS_KEY
-    var bucket = process.env.HUBOT_S3_LOOKUP_BUCKET
+    var key = process.env.HUBOT_S3_LOOKUP_ACCESS_KEY_ID;
+    var secret = process.env.HUBOT_S3_LOOKUP_SECRET_ACCESS_KEY;
+    var bucket = process.env.HUBOT_S3_LOOKUP_BUCKET;
     var brainKey = "lookup";
     var brainAliasKey = "lookupAlias";
-    var lookupPath = "lookup.json"
+    var lookupPath = "lookup.json";
 
     if (!key) {
         throw new Error('S3 lookup requires HUBOT_S3_LOOKUP_ACCESS_KEY_ID')
@@ -53,7 +54,7 @@ module.exports = function (robot) {
         if (!lookupResult) {
             return 'I can\'t find any matches for that';
         }
-        return JSON.stringify(lookupResult);
+        return lookupFormatter(lookupResult);
     }
 
     var lookup = function (msg, query) {
