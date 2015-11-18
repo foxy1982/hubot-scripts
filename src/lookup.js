@@ -127,6 +127,8 @@ module.exports = function (robot) {
         var query = msg.match[1]
         if (query) {
             query = query.trim();
+        } else {
+            query = '';
         }
         lookup(msg, query);
     });
