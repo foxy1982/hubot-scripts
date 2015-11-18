@@ -125,7 +125,10 @@ module.exports = function (robot) {
 
     robot.respond("/lookup( .*)?/i", function (msg) {
         var query = msg.match[1]
-        lookup(msg, query.trim())
+        if (query) {
+            query = query.trim();
+        }
+        lookup(msg, query);
     });
 
     robot.respond("/lookup-refresh/i", function (msg) {
