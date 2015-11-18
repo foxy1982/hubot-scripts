@@ -1,5 +1,5 @@
 /*# Description:
-#   Lookup service for static data
+#   Lookup service for static data.  Data is stored in a file called lookup.json in S3
 #
 # Dependencies:
 #   None
@@ -15,6 +15,22 @@
 # Author:
 #
 */
+
+// Description:
+//   Lookup service for static data.  Data is stored in a file called lookup.json in S3
+//
+// Dependencies:
+//   None
+//
+// Configuration:
+//   HUBOT_S3_LOOKUP_ACCESS_KEY_ID      - AWS Access Key ID with S3 permissions
+//   HUBOT_S3_LOOKUP_SECRET_ACCESS_KEY  - AWS Secret Access Key for ID
+//   HUBOT_S3_LOOKUP_BUCKET             - Bucket to fetch lookup.json from
+//
+// Commands:
+//   hubot lookup <query> - searches through lookup data for query
+//   hubot lookup-refresh - refreshes lookup data from S3
+
 var aws = require('aws-sdk');
 var lookupEngine = require('../lib/lookupEngine');
 var lookupFormatter = require('../lib/lookupFormatter');
@@ -107,7 +123,7 @@ module.exports = function (robot) {
         });
     }
 
-    robot.respond("/lookup (.*)?/i", function (msg) {
+    robot.respond("/lookup( .*)?/i", function (msg) {
         var query = msg.match[1]
         lookup(msg, query.trim())
     });
