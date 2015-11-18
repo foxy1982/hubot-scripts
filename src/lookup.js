@@ -1,21 +1,3 @@
-/*# Description:
-#   Lookup service for static data.  Data is stored in a file called lookup.json in S3
-#
-# Dependencies:
-#   None
-#
-# Configuration:
-#   HUBOT_S3_LOOKUP_ACCESS_KEY_ID      - AWS Access Key ID with S3 permissions
-#   HUBOT_S3_LOOKUP_SECRET_ACCESS_KEY  - AWS Secret Access Key for ID
-#   HUBOT_S3_LOOKUP_BUCKET             - Bucket to fetch lookup from
-#
-# Commands:
-#   hubot lookup - connects to S3 and gets data for static lookup
-#
-# Author:
-#
-*/
-
 // Description:
 //   Lookup service for static data.  Data is stored in a file called lookup.json in S3
 //
