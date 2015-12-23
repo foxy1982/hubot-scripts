@@ -111,12 +111,8 @@ module.exports = function (robot) {
             }, function (err, data) {
                 robot.logger.debug("putObject-callback");
                 if (err) {
-                    robot.logger.debug("Request:");
-                    robot.logger.debug(this.request.httpRequest);
+                    robot.logger.debug("Failed to upload to S3:");
                     robot.logger.debug(err);
-                    if (msg) {
-                        msg.send("Failed to upload to S3: " + err);
-                    }
                     return;
                 }
 
