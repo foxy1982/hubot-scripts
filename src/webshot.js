@@ -107,7 +107,8 @@ module.exports = function (robot) {
             s3.putObject({
                 Bucket: bucket,
                 Key: fileName,
-                ContentType: 'image/png'
+                ContentType: 'image/png',
+                Body: fileStream
             }, function (err, data) {
                 robot.logger.debug("putObject-callback");
                 if (err) {
