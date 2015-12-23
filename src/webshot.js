@@ -1,4 +1,5 @@
 var aws = require('aws-sdk');
+var fs = require('fs');
 var webshot = require('webshot');
 
 module.exports = function (robot) {
