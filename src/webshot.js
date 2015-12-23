@@ -66,6 +66,7 @@ module.exports = function (robot) {
         var brainEntry = robot.brain.get(brainKey)[query];
 
         if (!brainEntry) {
+            robot.logger.debug("No matching query found. Braindump: " + robot.brain.get(brainKey));
             msg.send("No matching query found. Available queries: " + Object.keys(robot.brain.get(brainKey).join(',')));
         }
 
