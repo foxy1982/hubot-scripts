@@ -82,7 +82,7 @@ module.exports = function (robot) {
             }
         }, function (err) {
             if (err) {
-                robot.logger.debug('Failed to capture screenshot: ' + err);
+                return robot.logger.debug('Failed to capture screenshot: ' + err);
             }
 
             var imageUrl = uploadFile(webshotFile);
@@ -99,7 +99,7 @@ module.exports = function (robot) {
 
         fileStream.on('error', function (err) {
             if (err) {
-                robot.logger.debug('Error reading file:' + fileName + ' - ' + err);
+                return robot.logger.debug('Error reading file:' + fileName + ' - ' + err);
             }
         });
 
