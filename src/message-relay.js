@@ -1,6 +1,20 @@
 var AWS = require('aws-sdk');
 var Consumer = require('sqs-consumer');
 
+function handleMessage(message, done) {
+    if (message.message) {
+        var envelope = {
+            room: message.channel || '#here-be-raptors'
+        };
+
+        var messages = [message.message];
+
+        robot.send(envelope, messages);
+    }
+
+    done();
+}
+
 module.exports = function (robot) {
 
     var key = process.env.HUBOT_SQS_MESSAGE_RELAY_ACCESS_KEY_ID;
@@ -30,19 +44,4 @@ module.exports = function (robot) {
         handleMessage: handleMessage,
         sqs: new AWS.SQS()
     });
-
-    var handleMessage = function (message, done) {
-        if (message.message)
-        {
-            var envelope = {
-                room: message.channel || '#here-be-raptors'
-            };
-
-            var messages = [message.message];
-
-            robot.send(envelope, messages);
-        }
-
-        done();
-    };
 };
