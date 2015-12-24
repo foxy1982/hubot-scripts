@@ -13,7 +13,7 @@ function handleMessage(data, done) {
         var envelope = {
             room: body.channel || '#here-be-raptors'
         };
-        robot.logger.debug('envelope is: ' + envelope);
+        robot.logger.debug('envelope is: ' + JSON.stringify(envelope));
 
         var messages = [message];
 
@@ -34,13 +34,13 @@ module.exports = function (robotParam) {
     var queue = process.env.HUBOT_SQS_MESSAGE_RELAY_QUEUE;
 
     if (!key) {
-        throw new Error('S3 webshot requires HUBOT_SQS_MESSAGE_RELAY_ACCESS_KEY_ID');
+        throw new Error('S3 message relay requires HUBOT_SQS_MESSAGE_RELAY_ACCESS_KEY_ID');
     }
     if (!secret) {
-        throw new Error('S3 webshot requires HUBOT_SQS_MESSAGE_RELAY_SECRET_ACCESS_KEY');
+        throw new Error('S3 message relay requires HUBOT_SQS_MESSAGE_RELAY_SECRET_ACCESS_KEY');
     }
     if (!queue) {
-        throw new Error('S3 webshot requires HUBOT_SQS_MESSAGE_RELAY_QUEUE');
+        throw new Error('S3 message relay requires HUBOT_SQS_MESSAGE_RELAY_QUEUE');
     }
     robot.logger.debug("Starting message relay");
 
