@@ -3,16 +3,19 @@ var Consumer = require('sqs-consumer');
 
 var robot;
 
-function handleMessage(message, done) {
-    robot.logger.debug('handleMessage: ' + JSON.stringify(message));
-    if (message.message) {
-        robot.logger.debug('message is: ' + message.message);
+function handleMessage(data, done) {
+    robot.logger.debug('handleMessage: ' + JSON.stringify(data));
+    var body = JSON.parse(data.body);
+    var message = body.message;
+
+    if (message) {
+        robot.logger.debug('message is: ' + message);
         var envelope = {
-            room: message.channel || '#here-be-raptors'
+            room: body.channel || '#here-be-raptors'
         };
         robot.logger.debug('envelope is: ' + envelope);
 
-        var messages = [message.message];
+        var messages = [message];
 
         robot.send(envelope, messages);
     }
