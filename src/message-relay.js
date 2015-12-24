@@ -15,9 +15,7 @@ function handleMessage(data, done) {
         };
         robot.logger.debug('envelope is: ' + JSON.stringify(envelope));
 
-        var messages = [message];
-
-        robot.send(envelope, messages);
+        robot.send(envelope, message);
     }
 
     robot.logger.debug('calling done');
