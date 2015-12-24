@@ -5,7 +5,7 @@ var robot;
 
 function handleMessage(data, done) {
     robot.logger.debug('handleMessage: ' + JSON.stringify(data));
-    var body = JSON.parse(data.body);
+    var body = JSON.parse(data.Body);
     var message = body.message;
 
     if (message) {
