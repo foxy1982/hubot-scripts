@@ -44,4 +44,6 @@ module.exports = function (robot) {
         handleMessage: handleMessage,
         sqs: new AWS.SQS()
     });
+
+    app.start();
 };
