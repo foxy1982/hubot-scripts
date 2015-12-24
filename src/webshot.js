@@ -1,7 +1,7 @@
 var aws = require('aws-sdk');
 var fs = require('fs');
 var webshot = require('webshot');
-
+/*
 module.exports = function (robot) {
 
     var key = process.env.HUBOT_S3_WEBSHOT_ACCESS_KEY_ID;
@@ -132,3 +132,4 @@ module.exports = function (robot) {
 
     refresh();
 };
+*/

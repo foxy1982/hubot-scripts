@@ -1,4 +1,4 @@
-var aws = require('aws-sdk');
+var AWS = require('aws-sdk');
 var Consumer = require('sqs-consumer');
 
 module.exports = function (robot) {
@@ -18,12 +18,12 @@ module.exports = function (robot) {
     }
     robot.logger.debug("Starting message relay");
 
-    aws.config.credentials = {
+    AWS.config.credentials = {
         accessKeyId: key,
         secretAccessKey: secret
     };
 
-    aws.config.region = "eu-west-1";
+    AWS.config.region = "eu-west-1";
 
     var app = Consumer.create({
         queueUrl: queue,
