@@ -4,6 +4,8 @@ module.exports = function (robot) {
 
         var data = 'nothing to see here';
 
+        return res.send(req.body);
+
         if (req.body.payload) {
             data = JSON.parse(req.body.payload).message;
         } else {
