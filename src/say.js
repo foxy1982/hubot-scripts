@@ -1,6 +1,6 @@
 module.exports = function (robot) {
     robot.router.post('/hubot/say/:room', function (req, res) {
-        room = req.params.room
+        room = req.params.room || '#here-be-raptors';
 
         if (req.body.payload) {
             data = JSON.parse(req.body.payload).message;
@@ -9,7 +9,7 @@ module.exports = function (robot) {
         }
 
         var envelope = {
-            room: body.channel || '#here-be-raptors'
+            room: room
         };
 
         robot.send(envelope, data);
