@@ -8,7 +8,11 @@ module.exports = function (robot) {
             data = req.body;
         }
 
-        robot.messageRoom(room, data);
+        var envelope = {
+            room: body.channel || '#here-be-raptors'
+        };
+
+        robot.send(envelope, data);
 
         res.send('OK');
     });
