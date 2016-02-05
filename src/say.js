@@ -4,10 +4,10 @@ module.exports = function (robot) {
 
         var data;
 
-        if (body.message) {
+        if (req.body.message) {
             data = message;
         } else {
-            data = body;
+            data = req.body;
         }
 
         var envelope = {
