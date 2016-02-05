@@ -1,16 +1,15 @@
 module.exports = function (robot) {
     robot.router.post('/hubot/say/:room', function (req, res) {
-            room = req.params.room
+        room = req.params.room
 
-            if (req.body.payload) {
-                data = JSON.parse(req.body.payload).message;
-            } else {
-                data = req.body;
-            }
+        if (req.body.payload) {
+            data = JSON.parse(req.body.payload).message;
+        } else {
+            data = req.body;
+        }
 
-            robot.messageRoom(room, data);
+        robot.messageRoom(room, data);
 
-            res.send('OK');
-        };
-    };
+        res.send('OK');
+    });
 }
