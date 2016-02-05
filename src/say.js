@@ -4,7 +4,7 @@ module.exports = function (robot) {
 
         var data;
 
-        var body = JSON.parse(body);
+        var body = JSON.parse(req.body);
 
         if (body.message) {
             data = message;
