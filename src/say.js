@@ -5,7 +5,7 @@ module.exports = function (robot) {
         var data;
 
         if (req.body.message) {
-            data = message;
+            data =req.body. message;
         } else {
             data = req.body;
         }
