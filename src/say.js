@@ -4,13 +4,12 @@ module.exports = function (robot) {
 
         var data = 'nothing to see here';
 
-/*
         if (req.body.payload) {
             data = JSON.parse(req.body.payload).message;
         } else {
             data = req.body;
         }
-*/
+
         var envelope = {
             room: room
         };
