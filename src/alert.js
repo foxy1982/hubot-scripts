@@ -46,6 +46,9 @@ function createProblemEnvelope(body) {
             },{
                 title: "Detail",
                 value: body.detail
+            },{
+                title: "State Type",
+                value: _.capitalize(body.stateType ?? "not supplied")
             }]
         }]
     };
@@ -65,6 +68,9 @@ function createRecoveryEnvelope(body) {
             fields: [{
                 title: "Detail",
                 value: body.detail
+            },{
+                title: "State Type",
+                value: _.capitalize(body.stateType ?? "not supplied")
             }]
         }]
     };
