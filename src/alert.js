@@ -48,7 +48,7 @@ function createProblemEnvelope(body) {
                 value: body.detail
             },{
                 title: "State Type",
-                value: _.capitalize(body.stateType ?? "not supplied")
+                value: _.capitalize(body.stateType || "not supplied")
             }]
         }]
     };
@@ -70,7 +70,7 @@ function createRecoveryEnvelope(body) {
                 value: body.detail
             },{
                 title: "State Type",
-                value: _.capitalize(body.stateType ?? "not supplied")
+                value: _.capitalize(body.stateType || "not supplied")
             }]
         }]
     };
