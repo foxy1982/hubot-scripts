@@ -28,6 +28,20 @@ function formatStateString(state) {
     return _.capitalize(state);
 }
 
+function createSoftStateEnvelope(body) {
+    var text = "Possible problem detected, rechecking...";
+    return {
+        channel: getRoom(body),
+        attachments: [{
+            color: "#FFFF00",
+            pretext: text,
+            fallback: text,
+            title: body.title,
+            title_link: body.url
+        }]
+    };
+}
+
 function createProblemEnvelope(body) {
     return {
         channel: getRoom(body),
@@ -46,9 +60,6 @@ function createProblemEnvelope(body) {
             },{
                 title: "Detail",
                 value: body.detail
-            },{
-                title: "State Type",
-                value: _.capitalize(body.stateType || "not supplied")
             }]
         }]
     };
@@ -68,9 +79,6 @@ function createRecoveryEnvelope(body) {
             fields: [{
                 title: "Detail",
                 value: body.detail
-            },{
-                title: "State Type",
-                value: _.capitalize(body.stateType || "not supplied")
             }]
         }]
     };
@@ -84,10 +92,20 @@ module.exports = function(robot) {
 
         var envelope;
 
-        if (body.state === "ok") {
-            envelope = createRecoveryEnvelope(body);
+        if (body.stateType === "soft") {
+            if (body.state !== "ok") {
+                envelope = createSoftStateEnvelope(body);
+            }
         } else {
-            envelope = createProblemEnvelope(body);
+            if (body.state === "ok") {
+                envelope = createRecoveryEnvelope(body);
+            } else {
+                envelope = createProblemEnvelope(body);
+            }
+        }
+
+        if (!envelope) {
+            return robot.logger.debug('no envelope create for: ' + JSON.stringify(body));
         }
 
         robot.logger.debug('created envelope: ' + JSON.stringify(envelope));
@@ -96,4 +114,4 @@ module.exports = function(robot) {
 
         res.send('OK');
     });
-}
+};
