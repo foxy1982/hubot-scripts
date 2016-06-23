@@ -1,7 +1,7 @@
 var _ = require('lodash');
 
 function getRoom(body) {
-    return 'hubot-dev';
+    return body.category || 'hubot-dev';
 }
 
 function getColor(body) {
