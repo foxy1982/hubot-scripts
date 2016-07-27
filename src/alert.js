@@ -1,7 +1,8 @@
 var _ = require('lodash');
+var roomSanitizer = require('./lib/roomSanitizer');
 
 function getRoom(body) {
-    return body.category || 'hubot-dev';
+    return roomSanitizer(body.category || 'hubot-dev');
 }
 
 function getColor(body) {

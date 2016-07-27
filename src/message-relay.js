@@ -1,5 +1,6 @@
 var AWS = require('aws-sdk');
 var Consumer = require('sqs-consumer');
+var roomSanitizer = require('./lib/roomSanitizer');
 
 var robot;
 
@@ -11,7 +12,7 @@ function handleMessage(data, done) {
     if (message) {
         robot.logger.debug('message is: ' + message);
         var envelope = {
-            room: body.channel || '#here-be-raptors'
+            room: roomSanitizer(body.channel || '#general')
         };
         robot.logger.debug('envelope is: ' + JSON.stringify(envelope));
 
