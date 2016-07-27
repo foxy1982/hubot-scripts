@@ -1,4 +1,4 @@
-var roomSanitizer = require('./lib/roomSanitizer');
+var roomSanitizer = require('../lib/roomSanitizer');
 
 module.exports = function (robot) {
     robot.router.post('/hubot/say/:room', function (req, res) {

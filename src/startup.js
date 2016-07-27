@@ -1,4 +1,4 @@
-var roomSanitizer = require('./lib/roomSanitizer');
+var roomSanitizer = require('../lib/roomSanitizer');
 
 module.exports = function(robot) {
     if (process.env.HUBOT_STARTUP_MESSAGE_ROOM && process.env.HUBOT_STARTUP_MESSAGE) {

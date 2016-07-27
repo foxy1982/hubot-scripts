@@ -1,6 +1,6 @@
 var AWS = require('aws-sdk');
 var Consumer = require('sqs-consumer');
-var roomSanitizer = require('./lib/roomSanitizer');
+var roomSanitizer = require('../lib/roomSanitizer');
 
 var robot;
 
