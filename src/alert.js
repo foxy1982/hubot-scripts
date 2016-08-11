@@ -1,118 +1,81 @@
-var _ = require('lodash');
-var roomSanitizer = require('../lib/roomSanitizer');
+var AWS = require('aws-sdk');
+var Consumer = require('sqs-consumer');
+var messageBuilder = require('../lib/alertMessageBuilder');
 
-function getRoom(body) {
-    return roomSanitizer(body.category || 'hubot-dev');
+function showMessage(body) {
+    robot.logger.debug('received message: ' + JSON.stringify(body));
+
+    var envelope;
+
+    if (body.stateType === "soft") {
+        if (body.state !== "ok") {
+            envelope = messageBuilder.createSoftStateEnvelope(body);
+        }
+    } else {
+        if (body.state === "ok") {
+            envelope = messageBuilder.createRecoveryEnvelope(body);
+        } else {
+            envelope = messageBuilder.createProblemEnvelope(body);
+        }
+    }
+
+    if (!envelope) {
+        return robot.logger.debug('no envelope create for: ' + JSON.stringify(body));
+    }
+
+    robot.logger.debug('created envelope: ' + JSON.stringify(envelope));
+
+    robot.adapter.customMessage(envelope);
 }
 
-function getColor(body) {
-    if (body.state === 'error') {
-        return "#FF0000";
-    }
+function handleSqsMessage(data, done) {
+    robot.logger.debug('handleMessage: ' + JSON.stringify(data));
+    var body = JSON.parse(data.Body);
+    showData(body);
 
-    if (body.state === 'warning') {
-        return "#FFAA00";
-    }
-
-    if (body.state === 'ok') {
-        return "#00CC00";
-    }
-
-    return "#888888";
+    robot.logger.debug('calling done');
+    done();
 }
 
-function formatStateString(state) {
-    if (state === "ok") {
-        return "OK";
+function initializeSqs(robot) {
+    var key = process.env.HUBOT_SQS_ALERT_ACCESS_KEY_ID;
+    var secret = process.env.HUBOT_SQS_ALERT_SECRET_ACCESS_KEY;
+    var queue = process.env.HUBOT_SQS_ALERT_QUEUE;
+
+    if (!queue) {
+        return robot.logger.debug('No SQS queue specified for alert service');
     }
 
-    return _.capitalize(state);
-}
+    if (!secret) {
+        throw new Error('SQS alert listener requires HUBOT_SQS_ALERT_SECRET_ACCESS_KEY');
+    }
+    if (!queue) {
+        throw new Error('SQS alert listener requires HUBOT_SQS_ALERT_QUEUE');
+    }
 
-function createSoftStateEnvelope(body) {
-    var text = "Possible problem detected, rechecking...";
-    return {
-        channel: getRoom(body),
-        attachments: [{
-            color: "#FFFF00",
-            pretext: text,
-            fallback: text,
-            title: body.title,
-            title_link: body.url
-        }]
+    robot.logger.debug('Starting SQS alert listener');
+
+    AWS.config.credentials = {
+        accessKeyId: key,
+        secretAccessKey: secret
     };
-}
 
-function createProblemEnvelope(body) {
-    return {
-        channel: getRoom(body),
-        attachments: [{
-            color: getColor(body),
-            pretext: "I've found an issue! Someone do something",
-            author_name: body.author.name,
-            author_link: body.author.url,
-            title: body.title,
-            title_link: body.url,
-            text: body.notes,
-            fallback: "Problem found!",
-            fields: [{
-                title: "Severity",
-                value: formatStateString(body.state)
-            },{
-                title: "Detail",
-                value: body.detail
-            }]
-        }]
-    };
-}
+    AWS.config.region = 'eu-west-1';
 
-function createRecoveryEnvelope(body) {
-    return {
-        channel: getRoom(body),
-        attachments: [{
-            color: getColor(body),
-            pretext: "Problem solved. Nothing to see here",
-            author_name: body.author.name,
-            author_link: body.author.url,
-            title: body.title,
-            title_link: body.url,
-            fallback: "Problem resolved",
-            fields: [{
-                title: "Detail",
-                value: body.detail
-            }]
-        }]
-    };
+    var app = Consumer.create({
+        queueUrl: queue,
+        handleMessage: handleSqsMessage,
+        sqs: new AWS.SQS()
+    });
+
+    app.start();
 }
 
 module.exports = function(robot) {
     robot.router.post('/hubot/alert', function(req, res) {
-        var body = req.body;
-
-        robot.logger.debug('received message: ' + JSON.stringify(body));
-
-        var envelope;
-
-        if (body.stateType === "soft") {
-            if (body.state !== "ok") {
-                envelope = createSoftStateEnvelope(body);
-            }
-        } else {
-            if (body.state === "ok") {
-                envelope = createRecoveryEnvelope(body);
-            } else {
-                envelope = createProblemEnvelope(body);
-            }
-        }
-
-        if (!envelope) {
-            return robot.logger.debug('no envelope create for: ' + JSON.stringify(body));
-        }
-
-        robot.logger.debug('created envelope: ' + JSON.stringify(envelope));
-
-        robot.adapter.customMessage(envelope);
-
+        showData(req.body);
         res.send('OK');
     });
+
+    initializeSqs(robot);
 };
