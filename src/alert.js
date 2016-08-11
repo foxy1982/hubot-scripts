@@ -1,6 +1,7 @@
 var AWS = require('aws-sdk');
 var Consumer = require('sqs-consumer');
 var messageBuilder = require('../lib/alertMessageBuilder');
+var robot;
 
 function showMessage(body) {
     robot.logger.debug('received message: ' + JSON.stringify(body));
@@ -37,7 +38,7 @@ function handleSqsMessage(data, done) {
     done();
 }
 
-function initializeSqs(robot) {
+function initializeSqs() {
     var key = process.env.HUBOT_SQS_ALERT_ACCESS_KEY_ID;
     var secret = process.env.HUBOT_SQS_ALERT_SECRET_ACCESS_KEY;
     var queue = process.env.HUBOT_SQS_ALERT_QUEUE;
@@ -71,11 +72,13 @@ function initializeSqs(robot) {
     app.start();
 }
 
-module.exports = function(robot) {
+module.exports = function(hubot) {
+    robot = hubot;
+
     robot.router.post('/hubot/alert', function(req, res) {
         showData(req.body);
         res.send('OK');
     });
 
-    initializeSqs(robot);
+    initializeSqs();
 };
