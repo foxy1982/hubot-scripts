@@ -32,7 +32,7 @@ function showMessage(body) {
 function handleSqsMessage(data, done) {
     robot.logger.debug('handleMessage: ' + JSON.stringify(data));
     var body = JSON.parse(data.Body);
-    showData(body);
+    showMessage(body);
 
     robot.logger.debug('calling done');
     done();
