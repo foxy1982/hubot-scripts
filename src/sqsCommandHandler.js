@@ -19,6 +19,7 @@ module.exports = function (rbt) {
             command = rawText.substr(rawText.indexOf(" "), rawText.length);
         }
         robot.logger.debug("Parsed to: " + command);
-        commandSender.postMessage(command.trim());
+        robot.logger.debug("Room is: " + msg.message.room);
+        commandSender.postMessage(command.trim(), msg.message.room);
     });
 };
