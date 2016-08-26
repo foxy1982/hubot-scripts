@@ -20,4 +20,4 @@ module.exports = function (robot) {
 
         res.send('OK');
     });
-}
+};
