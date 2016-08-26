@@ -9,6 +9,6 @@ module.exports = function (rbt) {
     var commandSender = new sqsCommandSender(robot);
 
     robot.catchAll(function (msg) {
-        commandSender.postMessage(msg.message);
+        commandSender.postMessage(msg.message.rawText);
     });
 };
