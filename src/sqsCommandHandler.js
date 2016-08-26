@@ -11,6 +11,7 @@ module.exports = function (rbt) {
     var commandResponder = new SqsCommandResponder(robot);
 
     robot.catchAll(function (msg) {
+        robot.logger.debug("Handling: " + msg.message);
         commandSender.postMessage(msg.message.rawText);
     });
 };
