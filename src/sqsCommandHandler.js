@@ -8,7 +8,7 @@ module.exports = function (rbt) {
 
     var commandSender = new sqsCommandSender(robot);
 
-    robot.catchAll(function (message) {
-        commandSender.postMessage(message);
+    robot.catchAll(function (msg) {
+        commandSender.postMessage(msg.message);
     });
 };
