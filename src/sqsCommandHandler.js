@@ -10,7 +10,7 @@ module.exports = function (rbt) {
     var commandSender = new sqsCommandSender(robot);
     var commandResponder = new SqsCommandResponder(robot);
 
-    robot.catchAll(function (msg) {
+    robot.respond("/( .*)?/i", function (msg) {
         robot.logger.debug("Handling: " + msg.message);
         var rawText = msg.message.rawText;
         robot.logger.debug("Raw Text: " + rawText);
