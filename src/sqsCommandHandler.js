@@ -12,8 +12,8 @@ module.exports = function (rbt) {
 
     robot.catchAll(function (msg) {
         robot.logger.debug("Handling: " + msg.message);
-        var command = msg.message.substr(msg.message.indexOf(" "), msg.message.length);
-        robot.logger.debug("Parsed to: ")
-        commandSender.postMessage(msg.message.rawText);
+        var command = msg.message.rawText.substr(msg.message.rawText.indexOf(" "), msg.message.rawText.length);
+        robot.logger.debug("Parsed to: " + command);
+        commandSender.postMessage(command);
     });
 };
