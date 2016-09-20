@@ -12,6 +12,8 @@ function showMessage(body) {
         if (body.state !== "ok") {
             envelope = messageBuilder.createSoftStateEnvelope(body);
         }
+    } else if (body.stateType === "unknown") {
+        envelope = messageBuilder.createUnknownStateEnvelope(body);
     } else {
         if (body.state === "ok") {
             envelope = messageBuilder.createRecoveryEnvelope(body);
